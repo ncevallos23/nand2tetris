@@ -60,18 +60,30 @@ CHIP CPU {
     And(a=Cinstruction, b=instruction[1], out=j2);
     And(a=Cinstruction, b=instruction[0], out=j3);
 
-    Or(a=d1, b=Ainstruction, out=loada)
+    Or(a=d1, b=Ainstruction, out=loada);
     //The rest of the stuffs
 
-    Mux16(a=outalu, b=instruction[0..14], sel=, out=outmux); //needs sel
-    ARegister(in=outmux, load=loada, out=outA, out=addressM); //needs load
+    Mux16(a=outalu, b=instruction[0..15], sel=Ainstruction, out=outmux); //needs sel
+    ARegister(in=outmux, load=loada, out=outA, out[0..14]=addressM); //needs load
     Mux16(a=outA, b=inM, sel=a, out=outAM);
     DRegister(in=outalu, load=d3, out=outD);//needs load
     ALU(x=outD, y=outAM, zx=c1, nx=c2, zy=c3, ny=c4, f=c5, no=c6, out=outalu, out=outM, zr=zr, ng=ng);//zr for zero, ng for negative
 
-    Mux8Way16(a[0]=false, a[1..15]=false, b[0]=b, b[1..15]=false, c[0]=c, c[1..15]=false, d[0]=d, d[1..15]=false, e[0]=e, e[1..15]=false, f[0]=f, f[1..15]=false, g[0]=g, g[1..15]=false, h[0]=h, h[1..15]=false, sel=, out[0]=outload, out[1..15] = outnull);
+    Not(in=zr, out=nzr);
+    Not(in=ng, out=nng);
 
-    PC(in=outA, load=outload, inc=true, reset=reset, out=pc);
+    And(a=nzr, b=nng, out=JGT);
+    And(a=true, b=zr, out=JEQ);
+    And(a=true, b=nng, out=JGE);
+    And(a=ng, b=nzr, out=JLT);
+    And(a=true, b=nzr, out=JNE);
+    And(a=true, b=ng, out=JLE);
+
+
+
+    Mux8Way16(a[0]=false, a[1..15]=false, b[0]=JGT, b[1..15]=false, c[0]=JEQ, c[1..15]=false, d[0]=JGE, d[1..15]=false, e[0]=JLT, e[1..15]=false, f[0]=JNE, f[1..15]=false, g[0]=JLE, g[1..15]=false, h[0]=true, h[1..15]=false, sel[0]=j1, sel[1]=j2, sel[2]=j3, out[0]=outload, out[1..15] = outnull);
+
+    PC(in=outA, load=outload, inc=true, reset=reset, out[0..14]=pc);
 
 
 
