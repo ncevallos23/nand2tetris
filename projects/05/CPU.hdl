@@ -44,14 +44,34 @@ CHIP CPU {
     Not(in=instruction[15], out=Ainstruction);
     Not(in=Ainstruction, out=Cinstruction);
 
+    And(a=Cinstruction, b=instruction[12], out=a);
+    And(a=Cinstruction, b=instruction[11], out=c1);
+    And(a=Cinstruction, b=instruction[10], out=c2);
+    And(a=Cinstruction, b=instruction[9], out=c3);
+    And(a=Cinstruction, b=instruction[8], out=c4);
+    And(a=Cinstruction, b=instruction[7], out=c5);
+    And(a=Cinstruction, b=instruction[6], out=c6);
+
+    And(a=Cinstruction, b=instruction[5], out=d1); //A
+    And(a=Cinstruction, b=instruction[4], out=d2, out=writeM); //M
+    And(a=Cinstruction, b=instruction[3], out=d3); //D
+
+    And(a=Cinstruction, b=instruction[2], out=j1);
+    And(a=Cinstruction, b=instruction[1], out=j2);
+    And(a=Cinstruction, b=instruction[0], out=j3);
+
+    Or(a=d1, b=Ainstruction, out=loada)
     //The rest of the stuffs
 
-    Mux16(a=outalu, b=instruction[0..14], sel=Ainstruction, out=outmux); //alu output is outalu
-    ARegister(in=outmux, load=, out=outA, out=addressM); //needs load
-    Mux16(a=outA, b=inM, sel=, out=outAM); //needs sel (this will be the a digit in the c instrution)
-    DRegister(in=outalu, load=, out=outD);//needs load
-    ALU(x=outD, y=outAM, zx=, nx=, zy=, ny=, f=, no=, out=outalu, out=outM, zr=, ng=);
-    PC(in=outA, load=, inc=, reset=reset, out=pc);
+    Mux16(a=outalu, b=instruction[0..14], sel=, out=outmux); //needs sel
+    ARegister(in=outmux, load=loada, out=outA, out=addressM); //needs load
+    Mux16(a=outA, b=inM, sel=a, out=outAM);
+    DRegister(in=outalu, load=d3, out=outD);//needs load
+    ALU(x=outD, y=outAM, zx=c1, nx=c2, zy=c3, ny=c4, f=c5, no=c6, out=outalu, out=outM, zr=zr, ng=ng);//zr for zero, ng for negative
+
+    Mux8Way16(a[0]=false, a[1..15]=false, b[0]=b, b[1..15]=false, c[0]=c, c[1..15]=false, d[0]=d, d[1..15]=false, e[0]=e, e[1..15]=false, f[0]=f, f[1..15]=false, g[0]=g, g[1..15]=false, h[0]=h, h[1..15]=false, sel=, out[0]=outload, out[1..15] = outnull);
+
+    PC(in=outA, load=outload, inc=true, reset=reset, out=pc);
 
 
 
