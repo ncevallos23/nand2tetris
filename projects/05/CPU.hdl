@@ -79,8 +79,6 @@ CHIP CPU {
     And(a=true, b=nzr, out=JNE);
     And(a=true, b=ng, out=JLE);
 
-
-
     Mux8Way16(a[0]=false, a[1..15]=false, b[0]=JGT, b[1..15]=false, c[0]=JEQ, c[1..15]=false, d[0]=JGE, d[1..15]=false, e[0]=JLT, e[1..15]=false, f[0]=JNE, f[1..15]=false, g[0]=JLE, g[1..15]=false, h[0]=true, h[1..15]=false, sel[0]=j1, sel[1]=j2, sel[2]=j3, out[0]=outload, out[1..15] = outnull);
 
     PC(in=outA, load=outload, inc=true, reset=reset, out[0..14]=pc);
