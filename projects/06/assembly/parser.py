@@ -1,13 +1,13 @@
-import sys
-
-file = sys.argv[1]
-
 def initalize():
+    file = input("file>")
     f = open(file, 'r')
     lines = []
     for line in f:
-        lines.append(line)
-    
+        if line == '\n':
+            continue
+        if line[0:2] != '//':
+            lines.append(line.strip())
+
     return lines
 
 def hasMoreCommands(index, file):
@@ -32,24 +32,37 @@ def symbol(command):
     if commandType(command) == 'A_COMMAND':
         return command[1:]
     elif commandType(command) == 'L_COMMAND':
-        return command[1:len(command)]
+        return command[1:len(command)-2]
     else:
         return None
 
 def dest(command):
     if commandType(command) == 'C_COMMAND':
-        return command[10:13]
+        if '=' in command:
+            return command[0:command.index('=')]
+        else:
+            return None
     else:
         return None
 
 def comp(command):
     if commandType(command) == 'C_COMMAND':
-        return command[3:10]
+        if '=' in command and ';' in command:
+            return command[command.index('=') + 1:command.index(';')]
+        elif '=' in command and ';' not in command:
+            return command[command.index('=') + 1:]
+        elif '=' not in command and ';' in command:
+            return command[0:command.index(';')]
+        else:
+            return command
     else:
         return None
 
 def jump(command):
     if commandType(command) == 'C_COMMAND':
-        return command[13:]
+        if ';' in command:
+            return command[command.index(';') + 1:]
+        else:
+            return None
     else:
         return None
