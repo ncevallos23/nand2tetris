@@ -6,7 +6,7 @@ def initalize():
         if line == '\n':
             continue
         if line[0:2] != '//':
-            lines.append(line.strip())
+            lines.append(line.strip().split()[0])
 
     return lines
 
@@ -32,7 +32,7 @@ def symbol(command):
     if commandType(command) == 'A_COMMAND':
         return command[1:]
     elif commandType(command) == 'L_COMMAND':
-        return command[1:len(command)-2]
+        return command[1:len(command)-1]
     else:
         return None
 
