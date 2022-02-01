@@ -24,6 +24,8 @@ if len(parsers) > 0:
     for parser_file in parsers:
         while parser_file.hasMoreCommands():
             #run through them
+            pass
 else: 
     #code for only one file
+    pass
 
