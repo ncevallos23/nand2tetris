@@ -35,9 +35,9 @@ if len(parsers) > 0:
             if parser_file.commandType() == 'C_ARITHMETIC':
                 coder.writeArithmetic(parser_file.arg1())
             elif parser_file.commandType() == 'C_PUSH':
-                coder.writeArithmetic('push', parser_file.arg1(), parser_file.arg2())
+                coder.writePushPop('push', parser_file.arg1(), parser_file.arg2())
             elif parser_file.commandType() == 'C_POP':
-                coder.writeArithmetic('pop', parser_file.arg1(), parser_file.arg2())
+                coder.writePushPop('pop', parser_file.arg1(), parser_file.arg2())
     coder.close()
 else: 
     while files.hasMoreCommands():
@@ -45,7 +45,7 @@ else:
         if files.commandType() == 'C_ARITHMETIC':
             coder.writeArithmetic(files.arg1())
         elif files.commandType() == 'C_PUSH':
-            coder.writeArithmetic('push', files.arg1(), files.arg2())
+            coder.writePushPop('push', files.arg1(), files.arg2())
         elif files.commandType() == 'C_POP':
-            coder.writeArithmetic('pop', files.arg1(), files.arg2())
+            coder.writePushPop('pop', files.arg1(), files.arg2())
     coder.close()

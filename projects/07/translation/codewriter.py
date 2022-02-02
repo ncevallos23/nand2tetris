@@ -1,14 +1,14 @@
 command_sequence1 = [
     '@SP',
     'M=M-1',
-    '@M',
+    'A=M',
     'D=M',
     '@SP',
     'M=M-1',
-    '@M',
+    'A=M',
     'D=D+M',
     '@SP',
-    '@M',
+    'A=M',
     'M=D',
     '@SP',
     'M=M+1'
@@ -18,7 +18,7 @@ command_sequence1 = [
 command_sequence2 = [
     '@SP',
     'M=M-1',
-    '@M',
+    'A=M',
     'M=0-M',
     '@SP',
     'M=M+1'
@@ -29,22 +29,22 @@ def command_sequence3_get(type, increment):
     command_sequence3 = [
     '@SP',
     'M=M-2',
-    '@M',
+    'A=M',
     'D=M',
     '@SP',
     'M=M+1',
-    '@M',
+    'A=M',
     'D=D-M',
     '@TRUE' + str(increment),
     'D;' + str(type),
     '@SP',
-    '@M',
+    'A=M',
     'M=0',
     '@FINAL' + str(increment),
     '0; JMP',
     '(TRUE' + str(increment) + ')',
     '@SP',
-    '@M',
+    'A=M',
     'M=-1',
     '(FINAL' + str(increment) + ')',
     '@SP',
@@ -52,15 +52,16 @@ def command_sequence3_get(type, increment):
     ]
     return command_sequence3
 
-def command_sequence4_get(segment, index): #for any
+def command_sequence4_get(segment, index):
     command_sequence4 = [
         '@' + str(segment),
         'D=M',
-        'D=D+' + str(index),
+        '@' + str(index),
+        'D=D+A'
         '@D',
         'D=M',
         '@SP',
-        '@M',
+        'A=M',
         'M=D',
         '@SP',
         'M=M+1'
@@ -69,9 +70,11 @@ def command_sequence4_get(segment, index): #for any
 
 def command_sequence5_get(index): #for constant
     command_sequence5 = [
+        '@' + str(index),
+        'D=A',
         '@SP',
-        '@M',
-        'M='+str(index),
+        'A=M',
+        'M=D',
         '@SP',
         'M=M+1'
     ]
@@ -79,11 +82,14 @@ def command_sequence5_get(index): #for constant
 
 def command_sequence6_get(index): #temp
     command_sequence6 = [
-        'D=5+' + str(index),
+        '@5'
+        'D=A'
+        '@' + str(index),
+        'D=D+A',
         '@D',
         'D=M',
         '@SP',
-        '@M',
+        'A=M',
         'M=D',
         '@SP',
         'M=M+1'
@@ -92,11 +98,14 @@ def command_sequence6_get(index): #temp
 
 def command_sequence7_get(index): #pointer
     command_sequence7 = [
-        'D=3+' + str(index),
+        '@3'
+        'D=A'
+        '@' + str(index),
+        'D=D+A',
         '@D',
         'D=M',
         '@SP',
-        '@M',
+        'A=M',
         'M=D',
         '@SP',
         'M=M+1'
@@ -105,22 +114,26 @@ def command_sequence7_get(index): #pointer
 
 def command_sequence8_get(index): #static
     command_sequence8 = [
-        'D=16+' + str(index),
+        '@16'
+        'D=A'
+        '@' + str(index),
+        'D=D+A',
         '@D',
         'D=M',
         '@SP',
-        '@M',
+        'A=M',
         'M=D',
         '@SP',
         'M=M+1'
     ]
     return command_sequence8
 
+#TODO fix the pop functions, make sure that you have to @index and then use the a reigister to transfer the values
 def command_sequence9_get(segment, index): #for any pop
     command_sequence9 = [
         '@SP',
         'M=M-1',
-        '@M',
+        'A=M',
         'D=M',
         'M=0',
         '@' + str(segment),
@@ -133,7 +146,7 @@ def command_sequence10_get(index): #temp
     command_sequence10 = [
         '@SP',
         'M=M-1',
-        '@M',
+        'A=M',
         'D=M',
         'M=0',
         'A=5+' + str(index),
@@ -145,7 +158,7 @@ def command_sequence11_get(index): #temp
     command_sequence11 = [
         '@SP',
         'M=M-1',
-        '@M',
+        'A=M',
         'D=M',
         'M=0',
         'A=3+' + str(index),
@@ -157,7 +170,7 @@ def command_sequence12_get(index): #temp
     command_sequence12 = [
         '@SP',
         'M=M-1',
-        '@M',
+        'A=M',
         'D=M',
         'M=0',
         'A=16+' + str(index),
@@ -165,7 +178,7 @@ def command_sequence12_get(index): #temp
     ]
     return command_sequence12
 
-class CodeWritter():
+class CodeWriter():
 
     def __init__(self, name):
         self.incrementvar = 0
@@ -211,7 +224,7 @@ class CodeWritter():
                 self.runningcommands.append(i)
             self.incrementvar += 1
 
-    def WritePushPop(self, command, segment, index):
+    def writePushPop(self, command, segment, index):
         if command == 'push':
             if segment == 'constant':
                 for i in command_sequence5_get(index):

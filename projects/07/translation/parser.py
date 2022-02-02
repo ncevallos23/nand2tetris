@@ -24,7 +24,7 @@ class Parser():
             return False
 
     def advance(self):
-        if self.hasMoreCommands(self):
+        if self.hasMoreCommands():
             self.index += 1
             self.currentCommand = self.commands[self.index]
 
