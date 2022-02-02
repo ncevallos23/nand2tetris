@@ -1,17 +1,20 @@
 command_sequence1 = [
+    '@2',
+    'D=A',
     '@SP',
-    'M=M-1',
+    'M=M-D',
     'A=M',
     'D=M',
     '@SP',
-    'M=M-1',
+    'M=M+1',
     'A=M',
     'D=D+M',
     '@SP',
-    'A=M',
+    'A=M-1',
     'M=D',
     '@SP',
-    'M=M+1'
+    'A=M',
+    'M=0'
 ]
 # index 7 is the one to change
 
@@ -27,8 +30,10 @@ command_sequence2 = [
 
 def command_sequence3_get(type, increment):
     command_sequence3 = [
+    '@2',
+    'D=A',
     '@SP',
-    'M=M-2',
+    'M=M-D',
     'A=M',
     'D=M',
     '@SP',
@@ -40,15 +45,17 @@ def command_sequence3_get(type, increment):
     '@SP',
     'A=M',
     'M=0',
+    'A=A-1',
+    'M=0',
     '@FINAL' + str(increment),
-    '0; JMP',
+    '0; JEQ',
     '(TRUE' + str(increment) + ')',
     '@SP',
-    'A=M',
+    'A=M-1',
     'M=-1',
-    '(FINAL' + str(increment) + ')',
-    '@SP',
-    'M=M+1'
+    'A=A+1',
+    'M=0',
+    '(FINAL' + str(increment) + ')'
     ]
     return command_sequence3
 
@@ -128,52 +135,78 @@ def command_sequence8_get(index): #static
     ]
     return command_sequence8
 
-#TODO fix the pop functions, make sure that you have to @index and then use the a reigister to transfer the values
 def command_sequence9_get(segment, index): #for any pop
     command_sequence9 = [
+        '@' + str(segment),
+        'D=A',
+        '@' + str(index),
+        'D=D+A',
+        '@13',
+        'M=D',
         '@SP',
         'M=M-1',
         'A=M',
         'D=M',
         'M=0',
-        '@' + str(segment),
-        'A=M+'+str(index),
+        '@13',
+        'A=M',
         'M=D'
     ]
     return command_sequence9
 
 def command_sequence10_get(index): #temp
     command_sequence10 = [
+        '@5',
+        'D=A',
+        '@' + str(index),
+        'D=D+A',
+        '@13',
+        'M=D',
         '@SP',
         'M=M-1',
         'A=M',
         'D=M',
         'M=0',
-        'A=5+' + str(index),
+        '@13',
+        'A=M',
         'M=D'
     ]
     return command_sequence10
 
 def command_sequence11_get(index): #temp
     command_sequence11 = [
+        '@3',
+        'D=A',
+        '@' + str(index),
+        'D=D+A',
+        '@13',
+        'M=D',
         '@SP',
         'M=M-1',
         'A=M',
         'D=M',
         'M=0',
-        'A=3+' + str(index),
+        '@13',
+        'A=M',
         'M=D'
     ]
     return command_sequence11
 
 def command_sequence12_get(index): #temp
     command_sequence12 = [
+        '@16',
+        'D=A',
+        '@' + str(index),
+        'D=D+A',
+        '@13',
+        'M=D',
         '@SP',
         'M=M-1',
         'A=M',
         'D=M',
         'M=0',
-        'A=16+' + str(index),
+        '@13',
+        'A=M',
         'M=D'
     ]
     return command_sequence12
@@ -188,15 +221,15 @@ class CodeWriter():
 
     def writeArithmetic(self, command):
         if command == "add":
-            command_sequence1[7] = 'D=D+M'
+            command_sequence1[9] = 'D=D+M'
             for i in command_sequence1:
                 self.runningcommands.append(i)
         elif command == "sub":
-            command_sequence1[7] = 'D=D-M'
+            command_sequence1[9] = 'D=D-M'
             for i in command_sequence1:
                 self.runningcommands.append(i)
         elif command == "neg":
-            command_sequence2[3] = 'M=0-M'
+            command_sequence2[3] = 'M=-M'
             for i in command_sequence2:
                 self.runningcommands.append(i)
         elif command == "not":
@@ -204,11 +237,11 @@ class CodeWriter():
             for i in command_sequence2:
                 self.runningcommands.append(i)
         elif command == "and":
-            command_sequence1[7] = 'D=D&M'
+            command_sequence1[9] = 'D=D&M'
             for i in command_sequence1:
                 self.runningcommands.append(i)
         elif command == "or":
-            command_sequence1[7] = 'D=D|M'
+            command_sequence1[9] = 'D=D|M'
             for i in command_sequence1:
                 self.runningcommands.append(i)
         elif command == "eq":
