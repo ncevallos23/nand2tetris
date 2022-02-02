@@ -64,8 +64,8 @@ def command_sequence4_get(segment, index):
         '@' + str(segment),
         'D=M',
         '@' + str(index),
-        'D=D+A'
-        '@D',
+        'D=D+A',
+        'A=D',
         'D=M',
         '@SP',
         'A=M',
@@ -89,11 +89,11 @@ def command_sequence5_get(index): #for constant
 
 def command_sequence6_get(index): #temp
     command_sequence6 = [
-        '@5'
-        'D=A'
+        '@5',
+        'D=A',
         '@' + str(index),
         'D=D+A',
-        '@D',
+        'A=D',
         'D=M',
         '@SP',
         'A=M',
@@ -105,11 +105,11 @@ def command_sequence6_get(index): #temp
 
 def command_sequence7_get(index): #pointer
     command_sequence7 = [
-        '@3'
-        'D=A'
+        '@3',
+        'D=A',
         '@' + str(index),
         'D=D+A',
-        '@D',
+        'A=D',
         'D=M',
         '@SP',
         'A=M',
@@ -121,11 +121,11 @@ def command_sequence7_get(index): #pointer
 
 def command_sequence8_get(index): #static
     command_sequence8 = [
-        '@16'
-        'D=A'
+        '@16',
+        'D=A',
         '@' + str(index),
         'D=D+A',
-        '@D',
+        'A=D',
         'D=M',
         '@SP',
         'A=M',
@@ -135,10 +135,11 @@ def command_sequence8_get(index): #static
     ]
     return command_sequence8
 
+#below is for popping
 def command_sequence9_get(segment, index): #for any pop
     command_sequence9 = [
         '@' + str(segment),
-        'D=A',
+        'D=M',
         '@' + str(index),
         'D=D+A',
         '@13',
@@ -173,7 +174,7 @@ def command_sequence10_get(index): #temp
     ]
     return command_sequence10
 
-def command_sequence11_get(index): #temp
+def command_sequence11_get(index): #pointer
     command_sequence11 = [
         '@3',
         'D=A',
@@ -192,7 +193,7 @@ def command_sequence11_get(index): #temp
     ]
     return command_sequence11
 
-def command_sequence12_get(index): #temp
+def command_sequence12_get(index): #static
     command_sequence12 = [
         '@16',
         'D=A',
