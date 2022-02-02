@@ -103,6 +103,68 @@ def command_sequence7_get(index): #pointer
     ]
     return command_sequence7
 
+def command_sequence8_get(index): #static
+    command_sequence8 = [
+        'D=16+' + str(index),
+        '@D',
+        'D=M',
+        '@SP',
+        '@M',
+        'M=D',
+        '@SP',
+        'M=M+1'
+    ]
+    return command_sequence8
+
+def command_sequence9_get(segment, index): #for any pop
+    command_sequence9 = [
+        '@SP',
+        'M=M-1',
+        '@M',
+        'D=M',
+        'M=0',
+        '@' + str(segment),
+        'A=M+'+str(index),
+        'M=D'
+    ]
+    return command_sequence9
+
+def command_sequence10_get(index): #temp
+    command_sequence10 = [
+        '@SP',
+        'M=M-1',
+        '@M',
+        'D=M',
+        'M=0',
+        'A=5+' + str(index),
+        'M=D'
+    ]
+    return command_sequence10
+
+def command_sequence11_get(index): #temp
+    command_sequence11 = [
+        '@SP',
+        'M=M-1',
+        '@M',
+        'D=M',
+        'M=0',
+        'A=3+' + str(index),
+        'M=D'
+    ]
+    return command_sequence11
+
+def command_sequence12_get(index): #temp
+    command_sequence12 = [
+        '@SP',
+        'M=M-1',
+        '@M',
+        'D=M',
+        'M=0',
+        'A=16+' + str(index),
+        'M=D'
+    ]
+    return command_sequence12
+
 class CodeWritter():
 
     def __init__(self, name):
@@ -163,6 +225,10 @@ class CodeWritter():
                 for i in command_sequence7_get(index):
                     self.runningcommands.append(i)
                 return 0
+            elif segment == 'static':
+                for i in command_sequence8_get(index):
+                    self.runningcommands.append(i)
+                return 0
             elif segment == 'argument':
                 for i in command_sequence4_get('ARG', index):
                     self.runningcommands.append(i)
@@ -180,7 +246,36 @@ class CodeWritter():
                     self.runningcommands.append(i)
                 return 0
         elif command == 'pop':
-            pass
+            if segment == 'temp':
+                for i in command_sequence10_get(index):
+                    self.runningcommands.append(i)
+                return 0
+            elif segment == 'pointer':
+                for i in command_sequence11_get(index):
+                    self.runningcommands.append(i)
+                return 0
+            elif segment == 'static':
+                for i in command_sequence12_get(index):
+                    self.runningcommands.append(i)
+                return 0
+            elif segment == 'argument':
+                for i in command_sequence9_get('ARG', index):
+                    self.runningcommands.append(i)
+                return 0
+            elif segment == 'local':
+                for i in command_sequence9_get('LCL', index):
+                    self.runningcommands.append(i)
+                return 0
+            elif segment == 'this':
+                for i in command_sequence9_get('THIS', index):
+                    self.runningcommands.append(i)
+                return 0
+            elif segment == 'that':
+                for i in command_sequence9_get('THAT', index):
+                    self.runningcommands.append(i)
+                return 0
 
     def close(self):
+        for command in self.runningcommands:
+            self.file.write(command + '\n')
         self.file.close()
