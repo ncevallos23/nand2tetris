@@ -16,7 +16,6 @@ class Parser():
             except:
                 self.commands.append(line.strip().split())
 
-    
     def hasMoreCommands(self):
         if self.index < len(self.commands) - 1:
             return True
@@ -36,30 +35,36 @@ class Parser():
             return 'C_PUSH'
         elif self.currentCommand[0] == 'pop':
             return 'C_POP'
-        else:
-            return None
+        elif self.currentCommand[0] == 'label':
+            return 'C_LABEL'
+        elif self.currentCommand[0] == 'goto':
+            return 'C_GOTO'
+        elif self.currentCommand[0] == 'if-goto':
+            return 'C_IF'
+        elif self.currentCommand[0] == 'function':
+            return 'C_FUNCTION'
+        elif self.currentCommand[0] == 'call':
+            return 'C_CALL'
+        elif self.currentCsommand[0] == 'return':
+            return 'C_RETURN'
         #program flow commands
 
         #function calling commands
 
     def arg1(self):
-        if self.commandType() == 'C_ARITHMETIC':
+        if self.commandType() == 'C_ARITHMETIC' or self.commandType() == 'C_RETURN':
             return self.currentCommand[0]
-        elif self.commandType() == 'C_PUSH':
-            return self.currentCommand[1]
-        elif self.commandType() == 'C_POP':
-            return self.currentCommand[1]
         else:
-            return None
-
+            return self.currentCommand[1]
 
     def arg2(self):
         if self.commandType() == 'C_PUSH':
             return int(self.currentCommand[2])
         elif self.commandType() == 'C_POP':
             return int(self.currentCommand[2])
-        else:
-            return None
-
+        elif self.commandType() == 'C_FUNCTION':
+            return int(self.currentCommand[2])
+        elif self.commandType() == 'C_CALL':
+            return int(self.currentCommand[2])
 
         

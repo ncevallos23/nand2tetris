@@ -1,4 +1,4 @@
-command_sequence1 = [
+command_sequence1 = [ # index 7 is the one to change
     '@2',
     'D=A',
     '@SP',
@@ -16,9 +16,8 @@ command_sequence1 = [
     'A=M',
     'M=0'
 ]
-# index 7 is the one to change
 
-command_sequence2 = [
+command_sequence2 = [ #index 3 is the one to change
     '@SP',
     'M=M-1',
     'A=M',
@@ -26,7 +25,6 @@ command_sequence2 = [
     '@SP',
     'M=M+1'
 ]
-#index 3 is the one to change
 
 def command_sequence3_get(type, increment):
     command_sequence3 = [
@@ -135,7 +133,6 @@ def command_sequence8_get(index): #static
     ]
     return command_sequence8
 
-#below is for popping
 def command_sequence9_get(segment, index): #for any pop
     command_sequence9 = [
         '@' + str(segment),
@@ -211,6 +208,24 @@ def command_sequence12_get(index): #static
         'M=D'
     ]
     return command_sequence12
+
+def command_sequence13_get(label):
+    command_sequence13 = [
+        '@' + str(label),
+        '0;JMP'
+    ]
+    return command_sequence13
+
+def command_sequence14_get(label):
+    command_sequence14 = [
+        '@SP',
+        'A=M-1',
+        'D=M',
+        'M=0',
+        '@' + str(label),
+        'D;JEQ',
+    ]
+    return command_sequence14
 
 class CodeWriter():
 
@@ -321,6 +336,19 @@ class CodeWriter():
                 for i in command_sequence9_get('THAT', index):
                     self.runningcommands.append(i)
                 return 0
+
+    def writeLabel(self, label):
+        self.runningcommands.append("(" + label + ")")
+
+    def writeGoto(self, label):
+        for i in command_sequence13_get(label):
+            self.runningcommands.append(i)
+        return 0
+
+    def writeIf(self, label):
+        for i in command_sequence14_get(label):
+            self.runningcommands.append(i)
+        return 0
 
     def close(self):
         for command in self.runningcommands:
