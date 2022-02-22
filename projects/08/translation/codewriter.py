@@ -471,12 +471,23 @@ class CodeWriter():
     def writeGoto(self, label):
         for i in command_sequence13_get(label):
             self.runningcommands.append(i)
-        return 0
 
     def writeIf(self, label):
         for i in command_sequence14_get(label):
             self.runningcommands.append(i)
-        return 0
+
+    def writeCall(self, functionName, numArgs):
+        for i in command_sequence15_get(functionName, numArgs, self.returnvar):
+            self.runningcommands.append(i)
+        self.returnvar += 1
+
+    def writeReturn(self):
+        for i in command_sequence17_get():
+            self.runningcommands.append(i)
+    
+    def writeFunction(self, functionName, numLocals):
+        for i in command_sequence16_get(functionName, numLocals):
+            self.runningcommands.append(i)
 
     def close(self):
         for command in self.runningcommands:
