@@ -227,10 +227,107 @@ def command_sequence14_get(label):
     ]
     return command_sequence14
 
+def command_sequence15_get(functionName, numArgs, ranum): #call code
+    command_sequence15 = [
+        '@returnaddy' + str(ranum),
+        'D=A',
+        '@SP',
+        'A=M',
+        'M=D',
+        '@SP',
+        'M=M+1',
+        '@LCL',
+        'D=M',
+        '@SP',
+        'A=M',
+        'M=D',
+        '@SP',
+        'M=M+1',
+        '@ARG',
+        'D=M',
+        '@SP',
+        'A=M',
+        'M=D',
+        '@SP',
+        'M=M+1',
+        '@THAT',
+        'D=M',
+        '@SP',
+        'A=M',
+        'M=D',
+        '@SP',
+        'M=M+1',
+        '@THIS',
+        'D=M',
+        '@SP',
+        'A=M',
+        'M=D',
+        '@SP',
+        'M=M+1',
+        '@SP',
+        'D=M',
+        '@' + str(numArgs),
+        'D=D-A',
+        '@5',
+        'D=D-A',
+        '@ARG',
+        'M=D',
+        '@SP',
+        'D=M',
+        '@LCL',
+        'M=D',
+        '@' + str(functionName),
+        '0; JMP',
+        '(returnaddy' + str(ranum) + ')'
+    ]
+    return command_sequence15
+
+def command_sequence16_get(functionName, numLocals): #function code
+    command_sequence16 = [
+        '(' + str(functionName) + ')',
+    ]
+    push_0 = [
+        '@SP',
+        'A=M',
+        'M=0',
+        '@SP',
+        'M=M+1'
+    ]
+    for time in range(0, numLocals):
+        command_sequence16 = command_sequence16 + push_0
+
+    return command_sequence16
+
+def command_sequence17_get(): #return code
+    command_sequence17 = [
+        '@LCL',
+        'D=M',
+        '@13', #this is now frame
+        'M=D',
+        '@5',
+        'D=D-A',
+        'A=D',
+        'D=M',
+        '@14', #return address
+        'M=D',
+        '@SP',
+        'A=M-1',
+        'D=M',
+        '@ARG',
+        'A=M',
+        'M=D',
+        '@ARG',
+        'D=M',
+        '@SP',
+        'M=D+1',
+    ]
+    return command_sequence17
+
 class CodeWriter():
 
     def __init__(self, name):
         self.incrementvar = 0
+        self.returnvar = 0
         self.runningcommands = []
         self.file_name = name + ".asm"
         self.file = open(self.file_name, 'w')

@@ -21,14 +21,8 @@ if ".vm" not in source:
 else:
     files = parser.Parser(source)
 
-
 if len(parsers) > 0:
     coder = codewriter.CodeWriter(str(source_split[-1]))
-else:
-    coder = codewriter.CodeWriter(str(source_split[-1].split('.')[0]))
-
-if len(parsers) > 0:
-    #code of many files
     for parser_file in parsers:
         while parser_file.hasMoreCommands():
             parser_file.advance()
@@ -39,7 +33,8 @@ if len(parsers) > 0:
             elif parser_file.commandType() == 'C_POP':
                 coder.writePushPop('pop', parser_file.arg1(), parser_file.arg2())
     coder.close()
-else: 
+else:
+    coder = codewriter.CodeWriter(str(source_split[-1].split('.')[0]))
     while files.hasMoreCommands():
         files.advance()
         if files.commandType() == 'C_ARITHMETIC':
