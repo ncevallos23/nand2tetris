@@ -32,6 +32,20 @@ if len(parsers) > 0:
                 coder.writePushPop('push', parser_file.arg1(), parser_file.arg2())
             elif parser_file.commandType() == 'C_POP':
                 coder.writePushPop('pop', parser_file.arg1(), parser_file.arg2())
+            elif parser_file.commandType() == 'C_LABEL':
+                coder.writeLabel(parser_file.arg1())
+            elif parser_file.commandType() == 'C_GOTO':
+                coder.writeGoto(parser_file.arg1())
+            elif parser_file.commandType() == 'C_IF':
+                coder.writeIf(parser_file.arg1())
+            elif parser_file.commandType() == 'C_FUNCTION':
+                coder.writeFunction(parser_file.arg1(), parser_file.arg2())
+            elif parser_file.commandType() == 'C_CALL':
+                coder.writeCall(parser_file.arg1(), parser_file.arg2())
+            elif parser_file.commandType() == 'C_RETURN':
+                coder.writeReturn(parser_file.arg1(), parser_file.arg2())
+            else:
+                print("no command detected")
     coder.close()
 else:
     coder = codewriter.CodeWriter(str(source_split[-1].split('.')[0]))
@@ -43,4 +57,18 @@ else:
             coder.writePushPop('push', files.arg1(), files.arg2())
         elif files.commandType() == 'C_POP':
             coder.writePushPop('pop', files.arg1(), files.arg2())
+        elif files.commandType() == 'C_LABEL':
+            coder.writeLabel(files.arg1())
+        elif files.commandType() == 'C_GOTO':
+            coder.writeGoto(files.arg1())
+        elif files.commandType() == 'C_IF':
+            coder.writeIf(files.arg1())
+        elif files.commandType() == 'C_FUNCTION':
+            coder.writeFunction(files.arg1(), files.arg2())
+        elif files.commandType() == 'C_CALL':
+            coder.writeCall(files.arg1(), files.arg2())
+        elif files.commandType() == 'C_RETURN':
+            coder.writeReturn(files.arg1(), files.arg2())
+        else:
+            print("no command detected")
     coder.close()
