@@ -1,11 +1,12 @@
 class Parser():
 
-    def __init__(self, address):
+    def __init__(self, address, file_name):
         self.address = address
         self.index = -1
         self.commands = []
         self.currentCommand = ""
         self.file = open(self.address, 'r')
+        self.file_name = file_name
         for line in self.file:
             if line == '\n':
                 continue
@@ -15,6 +16,9 @@ class Parser():
                 self.commands.append(line.strip().split('//')[0].split())
             except:
                 self.commands.append(line.strip().split())
+
+    def getName(self):
+        return self.file_name
 
     def hasMoreCommands(self):
         if self.index < len(self.commands) - 1:

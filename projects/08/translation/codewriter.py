@@ -117,13 +117,9 @@ def command_sequence7_get(index): #pointer
     ]
     return command_sequence7
 
-def command_sequence8_get(index): #static
+def command_sequence8_get(index, file): #static
     command_sequence8 = [
-        '@16',
-        'D=A',
-        '@' + str(index),
-        'D=D+A',
-        'A=D',
+        '@' + str(file) + '.' + str(index),
         'D=M',
         '@SP',
         'A=M',
@@ -190,21 +186,14 @@ def command_sequence11_get(index): #pointer
     ]
     return command_sequence11
 
-def command_sequence12_get(index): #static
+def command_sequence12_get(index, file): #static
     command_sequence12 = [
-        '@16',
-        'D=A',
-        '@' + str(index),
-        'D=D+A',
-        '@13',
-        'M=D',
         '@SP',
         'M=M-1',
         'A=M',
         'D=M',
         'M=0',
-        '@13',
-        'A=M',
+        '@' + str(file) + '.' + str(index),
         'M=D'
     ]
     return command_sequence12
@@ -404,7 +393,7 @@ class CodeWriter():
                 self.runningcommands.append(i)
             self.incrementvar += 1
 
-    def writePushPop(self, command, segment, index):
+    def writePushPop(self, command, segment, index, file_name):
         if command == 'push':
             if segment == 'constant':
                 for i in command_sequence5_get(index):
@@ -419,7 +408,7 @@ class CodeWriter():
                     self.runningcommands.append(i)
                 return 0
             elif segment == 'static':
-                for i in command_sequence8_get(index):
+                for i in command_sequence8_get(index, file_name):
                     self.runningcommands.append(i)
                 return 0
             elif segment == 'argument':
@@ -448,7 +437,7 @@ class CodeWriter():
                     self.runningcommands.append(i)
                 return 0
             elif segment == 'static':
-                for i in command_sequence12_get(index):
+                for i in command_sequence12_get(index, file_name):
                     self.runningcommands.append(i)
                 return 0
             elif segment == 'argument':

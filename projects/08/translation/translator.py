@@ -15,7 +15,8 @@ if ".vm" not in source:
     files = os.listdir(source)
     for file in files:
         if ".vm" in file:
-            parsers.append(parser.Parser(address = source + "/" + file))
+            temp = file[0:len(file)-4]
+            parsers.append(parser.Parser(address = source + "/" + file, file_name = temp))
         else:
             pass
 else:
@@ -30,9 +31,9 @@ if len(parsers) > 0:
             if parser_file.commandType() == 'C_ARITHMETIC':
                 coder.writeArithmetic(parser_file.arg1())
             elif parser_file.commandType() == 'C_PUSH':
-                coder.writePushPop('push', parser_file.arg1(), parser_file.arg2())
+                coder.writePushPop('push', parser_file.arg1(), parser_file.arg2(), parser_file.getName())
             elif parser_file.commandType() == 'C_POP':
-                coder.writePushPop('pop', parser_file.arg1(), parser_file.arg2())
+                coder.writePushPop('pop', parser_file.arg1(), parser_file.arg2(), parser_file.getName())
             elif parser_file.commandType() == 'C_LABEL':
                 coder.writeLabel(parser_file.arg1())
             elif parser_file.commandType() == 'C_GOTO':
