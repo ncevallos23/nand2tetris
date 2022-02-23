@@ -44,7 +44,7 @@ if len(parsers) > 0:
             elif parser_file.commandType() == 'C_CALL':
                 coder.writeCall(parser_file.arg1(), parser_file.arg2())
             elif parser_file.commandType() == 'C_RETURN':
-                coder.writeReturn(parser_file.arg1(), parser_file.arg2())
+                coder.writeReturn()
             else:
                 print("no command detected")
     coder.close()
@@ -70,7 +70,7 @@ else:
         elif files.commandType() == 'C_CALL':
             coder.writeCall(files.arg1(), files.arg2())
         elif files.commandType() == 'C_RETURN':
-            coder.writeReturn(files.arg1(), files.arg2())
+            coder.writeReturn()
         else:
             print("no command detected")
     coder.close()

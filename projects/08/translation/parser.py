@@ -28,9 +28,8 @@ class Parser():
             self.currentCommand = self.commands[self.index]
 
     def commandType(self):
-        #artehtmeic commands
-        if len(self.currentCommand) == 1 and self.currentCommand != 'return':
-            return 'C_ARITHMETIC'
+        if self.currentCommand[0] == 'return':
+            return 'C_RETURN'
         elif self.currentCommand[0] == 'push':
             return 'C_PUSH'
         elif self.currentCommand[0] == 'pop':
@@ -45,11 +44,8 @@ class Parser():
             return 'C_FUNCTION'
         elif self.currentCommand[0] == 'call':
             return 'C_CALL'
-        elif self.currentCsommand[0] == 'return':
-            return 'C_RETURN'
-        #program flow commands
-
-        #function calling commands
+        else:
+            return 'C_ARITHMETIC'
 
     def arg1(self):
         if self.commandType() == 'C_ARITHMETIC' or self.commandType() == 'C_RETURN':

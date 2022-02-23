@@ -287,15 +287,8 @@ def command_sequence16_get(functionName, numLocals): #function code
     command_sequence16 = [
         '(' + str(functionName) + ')',
     ]
-    push_0 = [
-        '@SP',
-        'A=M',
-        'M=0',
-        '@SP',
-        'M=M+1'
-    ]
     for time in range(0, numLocals):
-        command_sequence16 = command_sequence16 + push_0
+        command_sequence16 = command_sequence16 + command_sequence5_get(0)
 
     return command_sequence16
 
