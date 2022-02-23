@@ -16,7 +16,6 @@ if ".vm" not in source:
     for file in files:
         if ".vm" in file:
             temp = file[0:len(file)-3]
-            print(temp)
             parsers.append(parser.Parser(address = source + "/" + file, file_name = temp))
         else:
             pass
