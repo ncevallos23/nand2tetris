@@ -219,11 +219,12 @@ def command_sequence13_get(label):
 def command_sequence14_get(label):
     command_sequence14 = [
         '@SP',
-        'A=M-1',
+        'M=M-1',
+        'A=M',
         'D=M',
         'M=0',
         '@' + str(label),
-        'D;JEQ',
+        'D;JNE'
     ]
     return command_sequence14
 
