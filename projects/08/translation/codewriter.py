@@ -355,7 +355,7 @@ def command_sequence18_get():
         '@SP',
         'M=D'
         ]
-    return command_sequence18 + command_sequence15_get('main', 0, 0)
+    return command_sequence18 + command_sequence15_get('Sys.init', 0, 0)
 
 class CodeWriter():
 
