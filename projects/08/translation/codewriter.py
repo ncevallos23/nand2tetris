@@ -354,11 +354,20 @@ def command_sequence17_get(): #return code
     ]
     return command_sequence17
 
+def command_sequence18_get():
+    command_sequence18 = [
+        '@256',
+        'D=A',
+        '@SP',
+        'M=D'
+        ]
+    return command_sequence18 + command_sequence15_get('main', 0, 0)
+
 class CodeWriter():
 
     def __init__(self, name):
         self.incrementvar = 0
-        self.returnvar = 0
+        self.returnvar = 1
         self.runningcommands = []
         self.file_name = name + ".asm"
         self.file = open(self.file_name, 'w')
@@ -487,6 +496,10 @@ class CodeWriter():
     
     def writeFunction(self, functionName, numLocals):
         for i in command_sequence16_get(functionName, numLocals):
+            self.runningcommands.append(i)
+
+    def writeInit(self):
+        for i in command_sequence18_get():
             self.runningcommands.append(i)
 
     def close(self):

@@ -23,6 +23,7 @@ else:
 
 if len(parsers) > 0:
     coder = codewriter.CodeWriter(str(source_split[-1]))
+    #coder.writeInit()
     for parser_file in parsers:
         while parser_file.hasMoreCommands():
             parser_file.advance()
@@ -49,6 +50,7 @@ if len(parsers) > 0:
     coder.close()
 else:
     coder = codewriter.CodeWriter(str(source_split[-1].split('.')[0]))
+    #coder.writeInit()
     while files.hasMoreCommands():
         files.advance()
         if files.commandType() == 'C_ARITHMETIC':
