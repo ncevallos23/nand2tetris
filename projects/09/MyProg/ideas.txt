@@ -1,0 +1,24 @@
+lets make wordle in this game
+
+word will be UNITS
+6 tries
+
+# will mean wrong
+$ will mean that right letter wrong position
+* will mean right letter and position
+
+two rectangles together filled with the five spots to guess the word
+guess will be at the bottom
+screen will playing:
+
+  Guess        Hints
+_ _ _ _ _    _ _ _ _ _
+_ _ _ _ _    _ _ _ _ _
+_ _ _ _ _    _ _ _ _ _
+_ _ _ _ _    _ _ _ _ _
+_ _ _ _ _    _ _ _ _ _
+_ _ _ _ _    _ _ _ _ _
+
+Guess: 
+
+enter to type in the Guess

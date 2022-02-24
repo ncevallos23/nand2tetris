@@ -1,0 +1,12 @@
+// this will be a copy of the game wordle
+// it will have only one set word and the game will accept any guess
+
+class Main{
+    function void main(){
+        var Wordle game;
+        let game = Wordle.new("UNITS");
+        do game.draw();
+        do game.run();
+        return;
+    }
+}
