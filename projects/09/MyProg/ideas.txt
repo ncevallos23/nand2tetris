@@ -22,3 +22,13 @@ _ _ _ _ _    _ _ _ _ _
 Guess: 
 
 enter to type in the Guess
+
+
+characters start from x = 0, y = 1
+(0, 1) (6, 1)
+(0, 10) (6, 10)
+
+so rectangle draw is not inclusive
+
+each character has a pixel width of 8 with 6 characters actually being the character and 2 characters last the white space
+each character has a pixel height of 11 with 9 charcaters being the character and 2 characters last being white space

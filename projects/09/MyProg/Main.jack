@@ -1,0 +1,45 @@
+class Main{
+    function void main(){
+        var int start_x1; //0
+        var int start_x2; //5
+        var int start_y1; //1
+        var int start_y2; //9
+        var int rows; //0
+        var int columns;
+
+        let start_x1 = 0;
+        let start_x2 = 5;
+        let start_y1 = 1;
+        let start_y2 = 9;
+        let rows = 0;
+        let columns = 0;
+
+        while(rows < 8){
+            do Output.println();
+            let rows = rows + 1;
+        }
+        
+        let rows = 0;
+
+        while(rows < 7){
+            let columns = 0;
+            let start_x1 = 0;
+            let start_x2 = 5;
+            while(columns < 11){
+                do Screen.drawRectangle(start_x1, start_y1, start_x2, start_y2);
+                //changeing the values
+                let start_x1 = start_x1 + 8;
+                let start_x2 = start_x2 + 8;
+                let columns = columns + 1;
+            }
+            //changing the values
+            let start_y1 = start_y1 + 11;
+            let start_y2 = start_y2 + 11;
+            let rows = rows + 1;
+        }
+
+        
+        
+        return;
+    }
+}
