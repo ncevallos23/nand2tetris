@@ -41,6 +41,7 @@ class Main{
                 do Output.moveCursor(row, column);
                 do Output.printChar(curLetter);
                 let letter2 = 0;
+                let first = true;
                 while(letter2 < 5){
                     if(ans.charAt(letter2) = curLetter){
                         if (first){
