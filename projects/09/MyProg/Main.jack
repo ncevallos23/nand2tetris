@@ -63,6 +63,10 @@ class Main{
             let row = row + 1;
             
         }
+
+        do Output.moveCursor(21, 0);
+        do Output.printString("               ");
+        
         return;
     }
 }
