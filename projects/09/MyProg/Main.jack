@@ -8,6 +8,7 @@ class Main{
         var int letter2;
         var int column;
         var char curAnsLetter;
+        var boolean first;
 
         let ans = "WORLD";
 
@@ -17,6 +18,7 @@ class Main{
         let row = 0;
         do Output.printString("Guess        Hints");
         do Output.println();
+        let first = true;
 
         while(row<6){
             do Output.printString("_ _ _ _ _    _ _ _ _ _");
@@ -40,9 +42,12 @@ class Main{
                 let letter2 = 0;
                 while(letter2 < 5){
                     if(ans.charAt(letter2) = curLetter){
-                        let column = column + 13;
-                        do Output.moveCursor(row, column);
-                        do Output.printString("B");
+                        if (first = true){
+                            let column = column + 13;
+                            do Output.moveCursor(row, column);
+                            do Output.printString("B");
+                            let first = false;
+                        }
                     }
                     let letter2 = letter2 + 1;
                 }
@@ -54,6 +59,7 @@ class Main{
                 let letter = letter + 1;
             }
             let row = row + 1;
+            
         }
         return;
     }
