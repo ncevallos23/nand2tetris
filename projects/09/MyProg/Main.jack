@@ -1,25 +1,60 @@
 class Main{
     function void main(){
         var int row;
+        var String input;
+        var int letter;
+        var char curLetter;
+        var String ans;
+        var int letter2;
+        var int column;
+        var char curAnsLetter;
 
+        let ans = "WORLD";
+
+        let column = 0;
+        let letter2 = 0;
+        let letter = 0;
         let row = 0;
         do Output.printString("Guess        Hints");
         do Output.println();
 
-        while(row<7){
+        while(row<6){
             do Output.printString("_ _ _ _ _    _ _ _ _ _");
             do Output.println();
             let row = row+1;
         }
-
-        do Output.moveCursor(22, 0);
-
-        let row = 0;
-        while(row<7){
-            
-        }
-        do Output.printString("Guess: ");
         
+        do Output.moveCursor(21, 0);
+        
+        let row = 1;
+        while(row<7){
+            do Output.moveCursor(21, 0);
+            do Output.printString("               ");
+            do Output.moveCursor(21, 0);
+            let input = Keyboard.readLine("Guess: ");
+            while (letter < 5){
+                let curLetter = input.charAt(letter);
+                let column = 2 * letter;
+                do Output.moveCursor(row, column);
+                do Output.printChar(curLetter);
+                let letter2 = 0;
+                while(letter2 < 5){
+                    if(ans.charAt(letter2) = curLetter){
+                        let column = column + 13;
+                        do Output.moveCursor(row, column);
+                        do Output.printString("B");
+                    }
+                    let letter2 = letter2 + 1;
+                }
+                let curAnsLetter = ans.charAt(letter);
+                if (curLetter = curAnsLetter){
+                    do Output.moveCursor(row, column);
+                    do Output.printString("A");
+                }
+                let letter = letter + 1;
+            }
+            let row = row + 1;
+        }
         return;
     }
 }
