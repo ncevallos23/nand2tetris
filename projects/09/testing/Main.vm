@@ -224,6 +224,9 @@ call Output.printChar 1
 pop temp 0
 push constant 0
 pop local 5
+push constant 0
+not
+pop local 8
 label WHILE_EXP3
 push local 5
 push constant 5
