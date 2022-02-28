@@ -32,3 +32,15 @@ so rectangle draw is not inclusive
 
 each character has a pixel width of 8 with 6 characters actually being the character and 2 characters last the white space
 each character has a pixel height of 11 with 9 charcaters being the character and 2 characters last being white space
+
+things that are left to do
+1. create the wordle class done
+2. create the run and dealloc functions done
+3. create a system to say if you win or lose
+4. create a semi start up screen done
+
+--------
+|WORDLE|
+--------
+
+press eneter to start
