@@ -23,66 +23,73 @@ class Wordle{
 
     method void run(){
         var int row;
-        var String input;
         var int letter;
-        var char curLetter;
         var int letter2;
         var int column;
         var char curAnsLetter;
+        var char curLetter;
+        var String input;
         var boolean first;
+        var boolean won;
 
         let column = 0;
         let letter2 = 0;
         let letter = 0;
         let row = 0;
         let first = true;
+        let won = false;
         
         do Output.moveCursor(21, 0);
         
         let row = 1;
         while(row<7){
-            do Output.moveCursor(21, 0);
-            do Output.printString("               ");
-            do Output.moveCursor(21, 0);
-            let input = Keyboard.readLine("Guess: ");
-            let letter = 0;
-            while (letter < 5){
-                let curLetter = input.charAt(letter);
-                let column = 2 * letter;
-                do Output.moveCursor(row, column);
-                do Output.printChar(curLetter);
-                let letter2 = 0;
-                let first = true;
-                while(letter2 < 5){
-                    if(ans.charAt(letter2) = curLetter){
-                        if (first){
-                            let column = column + 13;
-                            do Output.moveCursor(row, column);
-                            do Output.printString("B");
-                            let first = false;
-                        }
-                    }
-                    let letter2 = letter2 + 1;
+            while(~(won)){
+                let input = "";
+                while(~(input.length() = 5)){
+                    do Output.moveCursor(21, 0);
+                    do Output.printString("               ");
+                    do Output.moveCursor(21, 0);
+                    let input = Keyboard.readLine("Guess: ");
                 }
-                let curAnsLetter = ans.charAt(letter);
-                if (curLetter = curAnsLetter){
+                let letter = 0;
+                while (letter < 5){
+                    let curLetter = input.charAt(letter);
+                    let column = 2 * letter;
                     do Output.moveCursor(row, column);
-                    do Output.printString("A");
+                    do Output.printChar(curLetter);
+                    let letter2 = 0;
+                    let first = true;
+                    while(letter2 < 5){
+                        if(ans.charAt(letter2) = curLetter){
+                            if (first){
+                                let column = column + 13;
+                                do Output.moveCursor(row, column);
+                                do Output.printString("B");
+                                let first = false;
+                            }
+                        }
+                        let letter2 = letter2 + 1;
+                    }
+                    let curAnsLetter = ans.charAt(letter);
+                    if (curLetter = curAnsLetter){
+                        do Output.moveCursor(row, column);
+                        do Output.printString("A");
+                    }
+                    let letter = letter + 1;
                 }
-                let letter = letter + 1;
+                let row = row + 1;
+                if(input = ans){
+                    let state = true;
+                }
             }
-            let row = row + 1;
-            
         }
-
         do Output.moveCursor(21, 0);
         do Output.printString("               ");
-        
         return;
     }
 
     method void dispose() {
         do Memory.deAlloc(this);
         return;
-     }
+    }
 }
