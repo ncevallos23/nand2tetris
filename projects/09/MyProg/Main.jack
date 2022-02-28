@@ -3,14 +3,12 @@ class Main{
         var Wordle game;
         var String word;
         let word = "";
-
         while(~(word.length() = 5)){
             let word = Keyboard.readLine("Word to Guess: ");
             do Output.moveCursor(0, 0);
             do Output.printString("                     ");
             do Output.moveCursor(0, 0);
         }
-        
         let game = Wordle.new(word);
         do game.run();
         do game.dispose();

@@ -30,14 +30,13 @@ class Wordle{
         var char curLetter;
         var String input;
         var boolean first;
-        var boolean won;
+        var boolean lost;
 
         let column = 0;
         let letter2 = 0;
         let letter = 0;
         let row = 0;
         let first = true;
-        let won = false;
         
         do Output.moveCursor(21, 0);
         
@@ -76,11 +75,24 @@ class Wordle{
                 }
                 let letter = letter + 1;
             }
-            let row = row + 1;
+            let row = checkState(row, input, ans) + 1;
         }
         do Output.moveCursor(21, 0);
         do Output.printString("               ");
         return;
+    }
+
+    method int checkState(int r, String in, String correct){
+        var int pointer;
+        
+        let pointer = 0;
+
+        while (pointer < 5){
+            if (~(in.charAt(pointer) = correct.charAt(pointer))){
+                return r;
+            }
+        }
+        return 9;
     }
 
     method void dispose() {
