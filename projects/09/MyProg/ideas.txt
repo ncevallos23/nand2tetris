@@ -44,3 +44,6 @@ things that are left to do
 --------
 
 press eneter to start
+
+
+make is so that it says if you win and lose
