@@ -1,6 +1,8 @@
+import JackTokenizer
+
 class CompilationEngine:
-    def __init__(self, file_in, file_out):
-        self.file_input = file_in #use open command if passing in a file
+    def __init__(self, token_in, file_out):
+        self.tokenizer_in = token_in #this is a JackTokenizer class
         self.file_output = file_out
     
     def CompileClass(self):

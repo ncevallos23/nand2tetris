@@ -1,19 +1,45 @@
+import re
+
 class Tokenizer:
     def __init__(self, file):
         self.file = open(file, 'r')
-        #process the commands here
+        multi = False
+        for line in self.file:
+            if '/**' in line and '*/' in line:
+                continue
+            if '/**' in line:
+                multi = True
+                continue
+            if '*/' in line:
+                multi = False
+                continue
+            if multi:
+                continue
+            if line == '\n':
+                continue
+            if line[0:2] == '//':
+                continue
+            try:
+                self.lines.append(line.strip().split('//')[0])
+            except:
+                self.lines.append(line.strip())
+        self.lines = []
         self.index = 0
-        self.currentCommand = ''
+        self.currentToken = ''
+        self.tokens = []
+        for line in self.lines:
+            pass#TODO
+
 
     def hasMoreTokens(self):
-        if self.index < len(self.file) - 1:
+        if self.index < len(self.tokens) - 1:
             return True
         else:
             return False
     
     def advance(self):
         self.index += 1
-        self.currentCommand = self.file[self.index]
+        self.currentToken = self.tokens[self.index]
 
     def tokenType(self):
         pass
