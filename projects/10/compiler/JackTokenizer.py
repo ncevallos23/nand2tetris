@@ -28,7 +28,7 @@ class Tokenizer:
         self.currentToken = ''
         self.tokens = []
         for line in self.lines:
-            pass#TODO
+            
 
 
     def hasMoreTokens(self):
