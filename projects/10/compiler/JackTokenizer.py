@@ -1,13 +1,14 @@
+chars = ['.', ',', '\'', '\"', '<', '=', '>', '(', ')', '{', '}', '[', ']', ';', '~', '+', '-', "/", "*", "&", '|']
+keywords = ['class', 'constructor', 'function', 'method', 'field', 'static', 'var', 'int', 'char', 'boolean', 'void', 'true', 'false', 'null', 'this', 'let', 'do', 'if', 'else', 'while', 'return']
+
 class Tokenizer:
     def __init__(self, f):
         self.file = open(f, 'r')
 
         self.lines = []
         multi = False
-        chars = ['.', ',', '\'', '\"', '<', '=', '>', '(', ')', '{', '}', '[', ']', ';', '~', '+', '-', "/", "*", "&", '|']
         self.tokens = []
         self.string_constants = {} #keys will be in the form of %/s#%
-        self.char_constants = {} #keys will be in the form of %/c#%
         self.string_count = 0
         self.char_count = 0
         self.token_ind = 0
@@ -83,9 +84,9 @@ class Tokenizer:
                     continue
                 if char == '\'' and inChar:
                     inChar = False
-                    key = '%/c' + str(self.char_count) + '%'
-                    self.char_count += 1
-                    self.char_constants[key] = charval
+                    key = '%/s' + str(self.string_count) + '%'
+                    self.string_constants += 1
+                    self.string_constants[key] = charval
                     line_string[index - 1] = key
                     index += 1
                     continue
@@ -120,19 +121,21 @@ class Tokenizer:
         self.currentToken = self.tokens[self.token_ind]
 
     def tokenType(self):
-        pass
+        try:
+            if int(self.currentToken) in range(0, 32768):
+                return 'INT_CONST'
+        except:
+            if self.currentToken in keywords:
+                return 'KEYWORD'
+            elif self.currentToken in chars:
+                return 'SYMBOL'
+            elif self.currentToken[0] == '%':
+                return 'STRING_CONST'
+            else:
+                return 'INDENTIFIER'
 
-    def keyWord(self):
-        pass
-
-    def symbol(self):
-        pass
-
-    def identifier(self):
-        pass
-
-    def intVal(self):
-        pass
-
-    def stringVal(self):
-        pass
+    def getToken(self):
+        if self.tokenType() == 'STRING_CONST':
+            return self.string_constants[self.token], self.tokenType()
+        else:
+            return self.token, self.tokenType()
