@@ -10,6 +10,7 @@ class Tokenizer:
         self.char_constants = {} #keys will be in the form of %/c#%
         self.string_count = 0
         self.char_count = 0
+        self.token_ind = 0
 
         for line in self.file:
             if '/**' in line and '*/' in line:
@@ -109,14 +110,14 @@ class Tokenizer:
                 self.tokens.append(token)
 
     def hasMoreTokens(self):
-        if self.index < len(self.tokens) - 1:
+        if self.token_ind < len(self.tokens) - 1:
             return True
         else:
             return False
     
     def advance(self):
-        self.index += 1
-        self.currentToken = self.tokens[self.index]
+        self.token_ind += 1
+        self.currentToken = self.tokens[self.token_ind]
 
     def tokenType(self):
         pass
