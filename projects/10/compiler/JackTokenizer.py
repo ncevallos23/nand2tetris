@@ -143,3 +143,17 @@ class Tokenizer:
             return self.string_constants[self.currentToken], self.tokenType()
         else:
             return self.currentToken, self.tokenType()
+    
+    def deAdvance(self, shift):
+        self.token_ind -= shift
+        self.currentToken = self.tokens[self.token_ind]
+
+    def lookAhead(self, shift):
+        commands = []
+        commands.append(self.getToken())
+        for time in range(0, shift):
+            self.advance()
+            commands.append(self.getToken())
+        self.deAdvance(shift)
+        return commands
+
