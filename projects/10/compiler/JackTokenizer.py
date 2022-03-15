@@ -4,14 +4,16 @@ keywords = ['class', 'constructor', 'function', 'method', 'field', 'static', 'va
 class Tokenizer:
     def __init__(self, f):
         self.file = open(f, 'r')
-
+        self.file_path = f
         self.lines = []
         multi = False
         self.tokens = []
         self.string_constants = {} #keys will be in the form of %/s#%
         self.string_count = 0
         self.char_count = 0
-        self.token_ind = 0
+        self.token_ind = -1
+        self.xmlLines = []
+        self.currentToken = ''
 
         for line in self.file:
             if '/**' in line and '*/' in line:
@@ -110,6 +112,8 @@ class Tokenizer:
             for token in newLine.split():
                 self.tokens.append(token)
 
+        self.file.close()
+
     def hasMoreTokens(self):
         if self.token_ind < len(self.tokens) - 1:
             return True
@@ -136,6 +140,6 @@ class Tokenizer:
 
     def getToken(self):
         if self.tokenType() == 'STRING_CONST':
-            return self.string_constants[self.token], self.tokenType()
+            return self.string_constants[self.currentToken], self.tokenType()
         else:
-            return self.token, self.tokenType()
+            return self.currentToken, self.tokenType()
