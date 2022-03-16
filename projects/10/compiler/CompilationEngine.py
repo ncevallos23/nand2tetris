@@ -13,7 +13,7 @@ class CompilationEngine:
     
     def CompileClass(self):
         self.output.append('<class>')
-        class_check = self.tokenizer_in.lookAhead(2, True, True)
+        class_check = self.tokenizer_in.lookAhead(2, False, True)
         if class_check[1][1] == 'identifier' and class_check[2][0] == '{':
             self.output.append('<'+class_check[0][1]+'>'+' '+class_check[0][0]+' '+'</'+class_check[0][1]+'>')
             self.output.append('<'+class_check[1][1]+'>'+' '+class_check[1][0]+' '+'</'+class_check[1][1]+'>')
@@ -36,7 +36,7 @@ class CompilationEngine:
 
     def CompileClassVarDec(self):
         self.output.append('<classVarDec>')
-        var_check = self.tokenizer_in.lookAhead(';', True, False)
+        var_check = self.tokenizer_in.lookAhead(';', False, False)
         for token in var_check:
             self.output.append('<'+token[1]+'>'+' '+token[0]+' '+'</'+token[1]+'>')
         self.output.append('</classVarDec>')
