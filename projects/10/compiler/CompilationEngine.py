@@ -3,6 +3,7 @@ import sys
 
 keywordSub = ['constructor', 'function', 'method']
 keywordClassVarDec = ['field', 'static']
+keywordType = ['int', 'char', 'bool', 'void']
 
 class CompilationEngine:
     def __init__(self, token_in, file_out):
@@ -12,7 +13,7 @@ class CompilationEngine:
     
     def CompileClass(self):
         self.output.append('<class>')
-        class_check = self.tokenizer_in.lookAhead(2, True)
+        class_check = self.tokenizer_in.lookAhead(2, True, True)
         if class_check[1][1] == 'identifier' and class_check[2][0] == '{':
             self.output.append('<'+class_check[0][1]+'>'+' '+class_check[0][0]+' '+'</'+class_check[0][1]+'>')
             self.output.append('<'+class_check[1][1]+'>'+' '+class_check[1][0]+' '+'</'+class_check[1][1]+'>')
@@ -34,7 +35,11 @@ class CompilationEngine:
         self.output.append('</class>')
 
     def CompileClassVarDec(self):
-        pass
+        self.output.append('<classVarDec>')
+        var_check = self.tokenizer_in.lookAhead(';', True, False)
+        for token in var_check:
+            self.output.append('<'+token[1]+'>'+' '+token[0]+' '+'</'+token[1]+'>')
+        self.output.append('</classVarDec>')
 
     def CompileSubroutine(self):
         pass
