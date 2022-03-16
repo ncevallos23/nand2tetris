@@ -127,19 +127,19 @@ class Tokenizer:
     def tokenType(self):
         try:
             if int(self.currentToken) in range(0, 32768):
-                return 'INT_CONST'
+                return 'integerConstant'
         except:
             if self.currentToken in keywords:
-                return 'KEYWORD'
+                return 'keyword'
             elif self.currentToken in chars:
-                return 'SYMBOL'
+                return 'symbol'
             elif self.currentToken[0] == '%':
-                return 'STRING_CONST'
+                return 'stringConstant'
             else:
-                return 'INDENTIFIER'
+                return 'indentifier'
 
     def getToken(self):
-        if self.tokenType() == 'STRING_CONST':
+        if self.tokenType() == 'stringConstant':
             return self.string_constants[self.currentToken], self.tokenType()
         else:
             return self.currentToken, self.tokenType()
@@ -148,12 +148,24 @@ class Tokenizer:
         self.token_ind -= shift
         self.currentToken = self.tokens[self.token_ind]
 
-    def lookAhead(self, shift):
+#shift = the shift or the char to match, #deBool is to see if function calls deAdvance, #typeBool is to see if we get char or shift, true means shfit
+    def lookAhead(self, shift, deBool, typeBool):
         commands = []
         commands.append(self.getToken())
-        for time in range(0, shift):
-            self.advance()
+        if typeBool:
+            for time in range(0, shift):
+                self.advance()
+                commands.append(self.getToken())
+            if deBool:
+                self.deAdvance(shift)
+            return commands
+        else:
+            count = 0
+            while(self.getToken()[0] != shift):
+                self.advance()
+                count+=1
+                commands.append(self.getToken())
+            if deBool:
+                self.deAdvance(count)
             commands.append(self.getToken())
-        self.deAdvance(shift)
-        return commands
-
+            return commands
