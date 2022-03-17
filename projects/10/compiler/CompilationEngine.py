@@ -74,10 +74,10 @@ class CompilationEngine:
         self.output.append('</parameterList>')
         self.output.append(last)
 
-    def compileVarDec(self):
-        pass
-
     def compileStatements(self):
+        pass
+    
+    def compileVarDec(self):
         pass
 
     def compileDo(self):
