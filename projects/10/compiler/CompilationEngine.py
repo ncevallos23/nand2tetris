@@ -20,7 +20,6 @@ class CompilationEngine:
             self.output.append('<'+class_check[2][1]+'>'+' '+class_check[2][0]+' '+'</'+class_check[2][1]+'>')
         else:
             print("error with class declaration")
-            print(class_check[0][0] + ' ' + class_check[1][0] + ' ' + class_check[2][0])
             sys.exit()
         while(self.tokenizer_in.hasMoreTokens()):
             self.tokenizer_in.advance()
@@ -30,9 +29,11 @@ class CompilationEngine:
             elif current[0] in keywordSub:
                 self.CompileSubroutine()
             else:
+                #print(self.output)
                 print("error with class var dec or subroutine dec")
                 sys.exit()
         self.output.append('</class>')
+
 
     def CompileClassVarDec(self):
         self.output.append('<classVarDec>')

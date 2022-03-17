@@ -23,15 +23,21 @@ else:
 if type(tokenizers) is list:
     #we know its a folder
     for tokenizer in tokenizers:
-        while(tokenizer.hasMoreTokens()):
-            tokenizer.advance()
-            token, tType = tokenizer.getToken()
-            print("Token: " + token + " of type " + tType)
+        #while(tokenizer.hasMoreTokens()):
+        #    tokenizer.advance()
+        #    token, tType = tokenizer.getToken()
+        #    print("Token: " + token + " of type " + tType)
+        tokenizer.advance()
+        current_comp = CompilationEngine.CompilationEngine(tokenizer, 'a')
+        current_comp.CompileClass()
 else:
-    while(tokenizers.hasMoreTokens()):
-            tokenizers.advance()
-            token, tType = tokenizers.getToken()
-            print("Token: " + token + " of type " + tType)
+    #while(tokenizers.hasMoreTokens()):
+    #    tokenizers.advance()
+    #    token, tType = tokenizers.getToken()
+    #    print("Token: " + token + " of type " + tType)
+    tokenizers.advance()
+    current_comp = CompilationEngine.CompilationEngine(tokenizers, 'a')
+    current_comp.CompileClass()
 
 
 

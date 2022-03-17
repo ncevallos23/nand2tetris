@@ -87,7 +87,7 @@ class Tokenizer:
                 if char == '\'' and inChar:
                     inChar = False
                     key = '%/s' + str(self.string_count) + '%'
-                    self.string_constants += 1
+                    self.string_count += 1
                     self.string_constants[key] = charval
                     line_string[index - 1] = key
                     index += 1
@@ -114,6 +114,7 @@ class Tokenizer:
 
         self.file.close()
 
+
     def hasMoreTokens(self):
         if self.token_ind < len(self.tokens) - 1:
             return True
@@ -136,7 +137,7 @@ class Tokenizer:
             elif self.currentToken[0] == '%':
                 return 'stringConstant'
             else:
-                return 'indentifier'
+                return 'identifier'
 
     def getToken(self):
         if self.tokenType() == 'stringConstant':
@@ -167,5 +168,4 @@ class Tokenizer:
                 commands.append(self.getToken())
             if deBool:
                 self.deAdvance(count)
-            commands.append(self.getToken())
             return commands
