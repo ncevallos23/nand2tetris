@@ -5,6 +5,20 @@ keywordSub = ['constructor', 'function', 'method']
 keywordClassVarDec = ['field', 'static']
 keywordType = ['int', 'char', 'bool', 'void']
 
+def splitList(l, seperator):
+    spliced = list()
+    for time in range(0, l.count(seperator)):
+        new = list()
+        count = 1
+        for val in l:
+                new.append(val)
+                count+=1
+                if val == seperator:
+                    del l[0:count]
+                    break
+        spliced.append(new)
+    return
+
 class CompilationEngine:
     def __init__(self, token_in, file_out):
         self.tokenizer_in = token_in #this is a JackTokenizer class
@@ -74,11 +88,43 @@ class CompilationEngine:
         self.output.append('</parameterList>')
         self.output.append(last)
 
-    def compileStatements(self):
-        pass
+    def compileStatements(self, callLocation): #compileParamenterList left the current token at the '{'
+        #Documentation for callLocation
+        #callLocation = 0: called from inside a CompileSubroutine
+        #callLocation = 1: called from inisde something else
+        if callLocation == 0:
+            self.output.append('<subroutineBody>')
+            statements_check = self.tokenizer_in.lookAheadList(keywordSub, True, True)
+            self.output.append('<'+statements_check[0][1]+'> '+statements_check[0][0]+' </'+statements_check[0][1]+'>')
+            while(self.tokenizer_in.getToken()[0] != '}' and self.tokenizer_in.lookAhead(1, True, True)[1][0] not in keywordSub):
+                self.tokenizer_in.advance()
+                if self.tokenizer_in.getToken()[0] == 'var':
+                    self.compileVarDec()
+                elif self.tokenizer_in.getToken()[0] == 'if':
+                    self.compileIf()
+                elif self.tokenizer_in.getToken()[0] == 'do':
+                    self.compileDo()
+                elif self.tokenizer_in.getToken()[0] == 'let':
+                    self.compileLet()
+                elif self.tokenizer_in.getToken()[0] == 'while':
+                    self.compileWhile()
+                elif self.tokenizer_in.getToken()[0] == 'return':
+                    self.compileReturn()
+                else:
+                    print("error in statements dec")
+                    sys.exit()
+
+            self.output.append('<'+statements_check[-1][1]+'> '+statements_check[-1][0]+' </'+statements_check[-1][1]+'>')
+            self.output.append('</subroutineBody>')
+        else:
+            pass
     
     def compileVarDec(self):
-        pass
+        self.output.append('<varDec>')
+        var_check = self.tokenizer_in.lookAhead(';', False, False)
+        for token in var_check:
+            self.output.append('<'+token[1]+'>'+' '+token[0]+' '+'</'+token[1]+'>')
+        self.output.append('</VarDec>')
 
     def compileDo(self):
         pass

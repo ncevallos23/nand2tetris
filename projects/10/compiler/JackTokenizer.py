@@ -170,7 +170,7 @@ class Tokenizer:
                 self.deAdvance(count)
             return commands
 
-    def lookAheadList(self, l, deBool):
+    def lookAheadList(self, l, deBool, popBool):
         commands = []
         count = 0
         while(self.getToken()[0] not in l):
@@ -179,4 +179,21 @@ class Tokenizer:
             commands.append(self.getToken())
         if deBool:
             self.deAdvance(count)
+        if popBool:
+            commands.pop()
         return commands
+
+    def lookAheadBrackets(self, deBool, popBool):
+        #this function should only be called if the current token is right before a bracket
+        openBraket_count = 0
+        closeBraket_count = 0
+        commands = []
+        count = 0
+        while(openBraket_count != closeBraket_count and openBracket_count != 0):
+            self.advance()
+            count+=1
+            if self.getToken()[0] == '{':
+                openBracket_count+=1
+            if self.getToken()[0] == '}':
+                closeBracket_count+=1
+            
