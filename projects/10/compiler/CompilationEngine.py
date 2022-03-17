@@ -34,7 +34,6 @@ class CompilationEngine:
                 sys.exit()
         self.output.append('</class>')
 
-
     def CompileClassVarDec(self):
         self.output.append('<classVarDec>')
         var_check = self.tokenizer_in.lookAhead(';', False, False)

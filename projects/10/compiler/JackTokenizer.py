@@ -169,3 +169,14 @@ class Tokenizer:
             if deBool:
                 self.deAdvance(count)
             return commands
+
+    def lookAheadList(self, l, deBool):
+        commands = []
+        count = 0
+        while(self.getToken()[0] not in l):
+            self.advance()
+            count+=1
+            commands.append(self.getToken())
+        if deBool:
+            self.deAdvance(count)
+        return commands
