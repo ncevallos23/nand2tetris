@@ -43,10 +43,37 @@ class CompilationEngine:
         self.output.append('</classVarDec>')
 
     def CompileSubroutine(self):
-        pass
+        self.output.append('<subroutineDec>')
+        subRoutine_check = self.tokenizer_in.lookAhead(2, False, True)
+        if subRoutine_check[0][0] in keywordSub and subRoutine_check[2][1] == 'identifier':
+            self.output.append('<'+subRoutine_check[0][1]+'>'+' '+subRoutine_check[0][0]+' '+'</'+subRoutine_check[0][1]+'>')
+            self.output.append('<'+subRoutine_check[1][1]+'>'+' '+subRoutine_check[1][0]+' '+'</'+subRoutine_check[1][1]+'>')
+            self.output.append('<'+subRoutine_check[2][1]+'>'+' '+subRoutine_check[2][0]+' '+'</'+subRoutine_check[2][1]+'>')
+        else:
+            print('error with subroutine declartation')
+            sys.exit()
+        
+        self.compileParameterList()
+        self.compileStatements()
+
+        self.output.append('</subroutineDec>')
 
     def compileParameterList(self):
-        pass
+        self.tokenizer_in.advance() #we should be at the '('
+        first = self.tokenizer_in.getToken()
+        self.output.append('<'+first[1]+'> ' + first[0] + ' </'+first[1]+'>')
+        self.tokenizer_in.advance()
+        parameter_check = self.tokenizer_in.lookAhead(')', False, False)
+        self.output.append('<parameterList>')
+        if parameter_check[-1][0] == ')' and self.tokenizer_in.lookAhead(1, True, True)[1][0] == '{':
+            for para in parameter_check:
+                self.output.append('<'+para[1]+'>'+' '+para[0]+' '+'</'+para[1]+'>')
+            last = self.output.pop()
+        else:
+            print("error in Parameter List dec")
+            sys.exit()
+        self.output.append('</parameterList>')
+        self.output.append(last)
 
     def compileVarDec(self):
         pass
